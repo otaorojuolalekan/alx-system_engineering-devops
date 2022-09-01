@@ -1,0 +1,1 @@
+SHELL PERMISSIONS Tasks Directory
