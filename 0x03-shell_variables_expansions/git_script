@@ -1,4 +1,5 @@
 #!/bin/bash
+chmod u+x $(ls -1t | head -1)
 git add .
 git commit -m "Scripts Created for ALX shell tasks"
 git push
