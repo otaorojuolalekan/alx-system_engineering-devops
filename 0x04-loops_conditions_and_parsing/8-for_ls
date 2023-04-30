@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# displays content of current directory
+# in list format
+# but only displays the part of the name after first dash
+
+cwdlist=$(ls)
+for item in $cwdlist;
+do
+    echo $item | cut -d "-" -f2
+done
