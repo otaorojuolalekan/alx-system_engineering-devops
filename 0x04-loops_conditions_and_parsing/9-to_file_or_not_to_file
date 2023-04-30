@@ -8,9 +8,9 @@ then
 # testing if file is empty or not
     if [ -s "school" ] 
     then
-        echo "file is not empty"
+        echo "school file is not empty"
     else
-        echo "file is empty"
+        echo "school file is empty"
     fi
 
 # if file is regular or not
