@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # This script uses if to print Hi on the 9th line
 #+ while printing "Best School" on the other 9 lines
 i=1
