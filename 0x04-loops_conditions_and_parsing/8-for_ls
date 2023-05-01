@@ -6,5 +6,5 @@
 cwdlist=$(ls)
 for item in $cwdlist;
 do
-    echo $item | cut -d "-" -f2
+    echo "$item" | cut -d "-" -f2
 done
