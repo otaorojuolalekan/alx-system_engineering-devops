@@ -1,30 +1,4 @@
 #!/usr/bin/env bash
 # Displays a list of currently running all processes.
 
-# ps -auxf
-
-# Use ps to list all running processes with a full process hierarchy
-processes=$(ps axjf)
-
-# Print header
-printf "%-10s %-10s %-10s %-20s %-20s %s\n" "USER" "PID" "PPID" "START TIME" "COMMAND" "PROCESS HIERARCHY"
-printf "%s\n" "==================================================================================="
-
-# Loop through each line of output from ps, skipping the first (header) line
-while IFS= read -r line && [[ "$line" != "" ]]; do
-    # Parse the line into columns using whitespace as a delimiter
-    columns=( $line )
-    
-    # Extract the USER, PID, PPID, START TIME, and COMMAND columns
-    user=${columns[0]}
-    pid=${columns[1]}
-    ppid=${columns[2]}
-    start_time=${columns[7]}
-    command=${columns[12]}
-    
-    # Determine the process hierarchy by counting the number of '|' characters in the line
-    process_hierarchy=$(echo "$line" | tr -cd '|' | wc -c | awk '{print $1}')
-    
-    # Print the information in a user-oriented format
-    printf "%-10s %-10s %-10s %-20s %-20s %${process_hierarchy}s%s\n" "$user" "$pid" "$ppid" "$start_time" "$command" "" "|"
-done <<< "$processes"
+ps -auxf 
