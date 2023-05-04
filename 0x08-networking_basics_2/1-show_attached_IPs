@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# swap localhost address in /etc/hosts
-#+ - localhost resolves to 127.0.0.2
-#+ - facebook.com resolves to 8.8.8.8
+# show attached ip in ifconfig
+#+ using grep and cut
 
 ifconfig -a | grep -oE "inet ([0-9]*\.){3}[0-9]*{3}" | cut -d' ' -f2
