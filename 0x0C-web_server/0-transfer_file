@@ -9,7 +9,10 @@ fi;
 PATH_TO_FILE=$1
 IP=$2
 USERNAME=$3
-if $4 then PATH_TO_SSH_KEY=$4;
+if [ -n "$4" ];
+then
+    PATH_TO_SSH_KEY=$4;
+fi;
 
 if [ $# -ge 4 ];
 then
