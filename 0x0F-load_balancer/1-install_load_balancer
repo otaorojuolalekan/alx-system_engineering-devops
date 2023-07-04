@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# script to install and configure HAproxy
+
+# the below scripts are obtained from
+# https://haproxy.debian.net/#distribution=Ubuntu&release=focal&version=2.8
+sudo apt-get -y install --no-install-recommends software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.8
+sudo apt-get -y install haproxy=2.8.\*
+
+# backup HAproxy config file
+echo "... backing up haproxy.cfg to haproxy.cfg_bak ..."
+sudo cp /etc/haproxy/haproxy.cfg haproxy.cfg_bak
+
+# set parameters
+echo ".... setting parameters ...."
+web1_name="138836-web-01"
+web1_ip="52.86.83.227"
+web2_name="138836-web-02"
+web2_ip="100.24.237.214"
+# domain="onifemi.tech"
+echo " .... done setting parameters .... "
+
+# reconfigure the default server config
+echo " ...... configuring server ...... "
+CONFIGURE_SERVER=\
+"
+defaults
+    mode http
+    timeout connect 10s
+    timeout client 10s
+    timeout server 10ms
+
+frontend onifemi-tech-frontend
+    bind *:80
+    default_backend onifemi-tech-backend
+
+backend onifemi-tech-backend
+    balance roundrobin
+    server '$web1_name' '$web1_ip':80 check
+    server '$web2_name' '$web2_ip':80 check
+"
+sudo bash -c "echo '$CONFIGURE_SERVER' > /etc/haproxy/haproxy.cfg"
+echo " ....... server reconfiguration done ....... "
+
+# enable haproxy to be started by init script
+echo 'configuring init script'
+sudo bash -c "echo 'ENABLED=1' > /etc/default/haproxy"
+echo " ......... init script configured successfully ........"
+
+# start or restart haproxy service
+
+if [ "$(pgrep -c haproxy)" -le 0 ]; then
+    sudo service haproxy start
+    echo " ..... haproxy service started .... "
+else
+    sudo service haproxy restart
+    echo " ..... haproxy service restarted ..... "
+fi
+
+echo " ........DONE........."
