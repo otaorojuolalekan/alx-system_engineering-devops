@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# configure web-02 to be identical to web-01
+# add custom HTTP header named X-Served-By Hostname
+
+# update and upgrade system files.
+sudo apt update > /dev/null && sudo apt -y upgrade > /dev/null
+
+# silently install Nginx
+sudo apt -y install nginx > /dev/null
+
+# Allow Nginx HTTP on firewall
+sudo ufw allow 'Nginx HTTP'
+
+# create directories if not existing / do nothing if existing
+for dir in /var/www/{html,error}; do
+	sudo mkdir -p "$dir"
+done
+
+# Give user ownership to /var/www/
+echo "........ changing file permissions ........."
+sudo chown -R "$USER":"$USER" /var/www
+sudo chmod -R 755 /var/www
+echo "....... done ......."
+
+# add new index.html file
+echo 'Hello World!' > /var/www/html/index.html
+
+# add error page file
+echo "Ceci n'est pas une page" > /var/www/html/error_404.html
+
+# backup the default config file
+echo "backing up server config file"
+sudo cp /etc/nginx/sites-enabled/default  nginx-sites-enabled_default
+
+# edit the config file in /etc/nginx/sites-enabled/default
+echo ".......Editing Nginx Server configuration files........"
+CONFIGURE_SERVER=\
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+	add_header X-Served-By \$hostname;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+	error_page 404 /404.html;
+	location /404.html {
+		internal;
+	}
+	location /redirect_me {
+		return 301 https://bard.google.com/;
+	}
+}"
+sudo bash -c "echo -e '$CONFIGURE_SERVER' > /etc/nginx/sites-enabled/default"
+echo "......file edition done......."
+
+# start or restart nginx service
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	sudo service nginx start
+	echo ".......starting nginx service......"
+else
+	sudo service nginx restart
+	echo ".......restarting nginx service......"
+fi
