@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# make 0-debugging shorter and nginx not running
+sed -i "s/8080/80/g" /etc/nginx/sites-enabled/default
+sudo service nginx restart
+echo "" | sudo tee /run/nginx.pid
