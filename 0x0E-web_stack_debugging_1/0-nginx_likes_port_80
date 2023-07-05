@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 # sites-enabled/default shows it was configured to listen on 8080 and not 80, we replace thsi with sed
-sed -i "s/8080/80/g" /etc/nginx/sites-enabled/default
-sudo service nginx restart
+# remove existing /etc/nginx/sites-enabled/default file.
+rm /etc/nginx/sites-enabled/default
+# create a symbolic link
+cp -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
