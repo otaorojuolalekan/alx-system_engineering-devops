@@ -1,50 +1,13 @@
 #!/usr/bin/env bash
-# script to install and configure HAproxy
+# Configure Nginx so that its HTTP response contains a custom header# a custom header
 
-# install haproxy
+# install needed files
+sudo apt-get -y install software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.5
+sudo apt-get -y update
+
+# Install HAProxy
 sudo apt-get -y install haproxy
-
-# backup HAproxy config file
-echo "... backing up haproxy.cfg to haproxy.cfg_bak ..."
-sudo cp /etc/haproxy/haproxy.cfg haproxy.cfg_bak
-echo "\t ...backup done... "
-
-# reconfiguring the default server config
-echo " ...... configuring server ...... "
-CONFIGURE_SERVER=\
-"
-defaults
-    mode http
-    timeout connect 10s
-    timeout client 10s
-    timeout server 10ms
-    no option http-use-htx
-
-frontend onifemi-tech-frontend
-    bind *:80
-    default_backend onifemi-tech-backend
-
-backend onifemi-tech-backend
-    balance roundrobin
-    server 138836-web-01 52.86.83.227:80 check
-    server 138836-web-02 100.24.237.214:80 check
-"
-sudo bash -c "echo '$CONFIGURE_SERVER' > /etc/haproxy/haproxy.cfg"
-echo " ....... server reconfiguration done ....... "
-
-# enable haproxy to be started by init script
-echo 'configuring init script'
-sudo bash -c "echo 'ENABLED=1' > /etc/default/haproxy"
-echo " ......... init script configured successfully ........"
-
-# start or restart haproxy service
-
-if [ "$(pgrep -c haproxy)" -le 0 ]; then
-    sudo service haproxy start
-    echo " ..... haproxy service started .... "
-else
-    sudo service haproxy restart
-    echo " ..... haproxy service restarted ..... "
-fi
-
-echo " ........DONE........."
+sudo sed -i -e '$aENABLED=1\n' /etc/default/haproxy
+sudo sed -i -e '$a\listen http-in\n\tbind :80\n\tbalance roundrobin\n\tserver 138836-web-01 52.86.83.227:80 check\n\tserver 138836-web-02 100.24.237.214:80 check\n' /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
