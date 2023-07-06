@@ -27,7 +27,7 @@ frontend onifemi-tech-frontend
 backend onifemi-tech-backend
     balance roundrobin
     server 138836-web-01 52.86.83.227:80 check
-    server 138836-web-02 52.86.83.227:80 check
+    server 138836-web-02 100.24.237.214:80 check
 "
 sudo bash -c "echo '$CONFIGURE_SERVER' > /etc/haproxy/haproxy.cfg"
 echo " ....... server reconfiguration done ....... "
