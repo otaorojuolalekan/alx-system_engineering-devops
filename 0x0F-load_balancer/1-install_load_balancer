@@ -7,17 +7,9 @@ sudo apt-get -y install haproxy
 # backup HAproxy config file
 echo "... backing up haproxy.cfg to haproxy.cfg_bak ..."
 sudo cp /etc/haproxy/haproxy.cfg haproxy.cfg_bak
+echo "\t ...backup done... "
 
-# set parameters
-echo ".... setting parameters ...."
-web1_name="138836-web-01"
-web1_ip="52.86.83.227"
-web2_name="138836-web-02"
-web2_ip="100.24.237.214"
-# domain="onifemi.tech"
-echo " .... done setting parameters .... "
-
-# reconfigure the default server config
+# reconfiguring the default server config
 echo " ...... configuring server ...... "
 CONFIGURE_SERVER=\
 "
@@ -34,8 +26,8 @@ frontend onifemi-tech-frontend
 
 backend onifemi-tech-backend
     balance roundrobin
-    server '$web1_name' '$web1_ip':80 check
-    server '$web2_name' '$web2_ip':80 check
+    server 138836-web-01 52.86.83.227:80 check
+    server 138836-web-02 52.86.83.227:80 check
 "
 sudo bash -c "echo '$CONFIGURE_SERVER' > /etc/haproxy/haproxy.cfg"
 echo " ....... server reconfiguration done ....... "
