@@ -17,7 +17,7 @@ defaults
     mode http
     timeout connect 10s
     timeout client 10s
-    timeout server 10ms
+    timeout server 10s
     no option http-use-htx
 
 frontend onifemi-tech-frontend
