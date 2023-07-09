@@ -18,7 +18,7 @@ if [[ "$#" -eq 2 ]]; then
     dig_command "$subdomain" "$domain"
 elif [[ "$#" -eq 1 ]]; then
     domain="$1"
-    for i in "${subdomains_all[@]}"
+    for i in "${all_subdomains[@]}"
     do
 	    dig_command "$i" "$domain"
     done
