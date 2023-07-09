@@ -7,16 +7,19 @@ all_subdomains=( "www" "lb-01" "web-01" "web-02" )
 dig_command() {
     subdomain="$1"
     domain="$2"
+
     dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -1 | awk -v s="$subdomain" 'BEGIN { FS = " " } ; { print "The subdomain " s " is a " $4 " record and points to " $5 }'
-#   dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -1 | awk -v s="$subdomain" 'BEGIN { FS = " " } ; { print "The subdomain " s " is a " $4 " record and points to " $5 }'
 }
 
 # check no of args, if 1 pass through all subs, else ru
 if [[ "$#" -eq 2 ]]; then
-    dig_command "$1" "$2"
+    domain="$2"
+    subdomain=$1
+    dig_command "$subdomain" "$domain"
 elif [[ "$#" -eq 1 ]]; then
-    for i in "${all_subdomains[@]}";
+    domain="$1"
+    for i in "${subdomains_all[@]}"
     do
-        dig_command "$i" "$1"
+	    dig_command "$i" "$domain"
     done
 fi
