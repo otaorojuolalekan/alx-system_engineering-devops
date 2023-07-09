@@ -13,8 +13,8 @@ dig_command() {
 
 # check no of args, if 1 pass through all subs, else ru
 if [[ "$#" -eq 2 ]]; then
-    domain="$2"
-    subdomain=$1
+    domain="$1"
+    subdomain="$2"
     dig_command "$subdomain" "$domain"
 elif [[ "$#" -eq 1 ]]; then
     domain="$1"
