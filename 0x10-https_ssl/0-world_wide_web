@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# This uses dig and awk to fetch info about a subdomain
+# output - The subdomain [SUB_DOMAIN] is a [RECORD_TYPE] record and points to [DESTINATION]
+
+all_subdomains=( "www" "lb-01" "web-01" "web-02" )
+
+dig_command() {
+    subdomain="$1"
+    domain="$2"
+    dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -1 | awk -v s="$subdomain" 'BEGIN { FS = " " } ; { print "The subdomain " s " is a " $4 " record and points to " $5 }'
+#   dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -1 | awk -v s="$subdomain" 'BEGIN { FS = " " } ; { print "The subdomain " s " is a " $4 " record and points to " $5 }'
+}
+
+# check no of args, if 1 pass through all subs, else ru
+if [[ "$#" -eq 2 ]]; then
+    dig_command "$1" "$2"
+elif [[ "$#" -eq 1 ]]; then
+    for i in "${all_subdomains[@]}";
+    do
+        dig_command "$i" "$1"
+    done
+fi
