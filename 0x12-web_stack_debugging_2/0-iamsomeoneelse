@@ -4,5 +4,5 @@ if [ "$#" -lt 1 ];
 then
     whoami
 else
-    su "$1" -c 'whoami'
+    su "$1" -s /bin/bash -c 'whoami'
 fi
