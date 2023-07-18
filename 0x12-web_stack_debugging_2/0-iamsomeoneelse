@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# login as user specified in arg1
+su "$1" -s /bin/bash -c "whoami"
