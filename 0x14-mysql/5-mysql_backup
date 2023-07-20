@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
 # This script creates the backup for a db
 
-# Get today's date in specified format
-today=$(date + '%d-%m-%Y')
-
-# Get password from cmd arg
-password="$1"
-
-# create the backup file with mysqldump
-mysqldump -u root -p="$password" -A > backup.sql
-
-# create the compressed tar archive.
-tar -czf "$today".tar.gz backup.sql
+if [ "$1" ] ; then
+    touch .mylogin.cnf
+    printf "[client]\nuser = %s\npassword = %s" "root" "$1" >> .mylogin.cnf
+    chmod 600 .mylogin.cnf
+    mysqldump --defaults-extra-file=.mylogin.cnf --all-databases > backup.sql
+    tar -czvf "$(date '+%d-%m-%Y').tar.gz" backup.sql
+fi
