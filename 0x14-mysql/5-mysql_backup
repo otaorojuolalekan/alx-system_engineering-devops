@@ -8,7 +8,7 @@ today=$(date + '%d-%m-%Y')
 password="$1"
 
 # create the backup file with mysqldump
-mysqldump -u root -p=$password -A > backup.sql
+mysqldump -u root -p="$password" -A > backup.sql
 
 # create the compressed tar archive.
-tar -czf $today.tar.gz backup.sql
+tar -czf "$today".tar.gz backup.sql
