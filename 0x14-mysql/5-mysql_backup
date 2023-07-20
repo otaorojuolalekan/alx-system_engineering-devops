@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# This script creates the backup for a db
+
+# Get today's date in specified format
+today=$(date + '%d-%m-%Y')
+
+# Get password from cmd arg
+password="$1"
+
+# create the backup file with mysqldump
+mysqldump -u root -p=$password -A > backup.sql
+
+# create the compressed tar archive.
+tar -czf $today.tar.gz backup.sql
+
+# Remove the backup file
+rm backup.sql
