@@ -31,7 +31,7 @@ def main():
             with open('{}.json'.format(id), 'w') as jsonfile:
                 user_data = [{
                     "task": todo.get('title'),
-                    "completed": bool(todo.get('completed')),
+                    "completed": todo.get('completed'),
                     "username": emp_username
                 } for todo in emp_todos]
 
