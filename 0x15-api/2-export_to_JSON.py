@@ -29,14 +29,12 @@ def main():
             # write responses to csv
             with open('{}.json'.format(id), 'w') as fp:
                 for todo in emp_todos:
-                    fp.write(
-                        '"{}", "{}", "{}" "{}"\n'.format(
-                            id,
-                            emp_username,
-                            todo.get('completed'),
-                            todo.get('title')
-                        )
-                    )
+                    user_data = [{
+                        "task": '{}'.format(todo.get('title')),
+                        "completed": {}.format(todo.get('completed')),
+                        "username": {}.format(emp_username)
+                    }]
+                user_json = {'{}'.format(id): user_data}
 
 
 if __name__ == '__main__':
