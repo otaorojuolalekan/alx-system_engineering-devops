@@ -14,11 +14,11 @@ def main():
     """show how many of how many tasks is done by user
     User id is passed as an argument"""
     if len(sys.argv) > 1:
-        id = sys.argv[1]
+        id = int(sys.argv[1])
         if re.fullmatch(r"\d+", sys.argv[1]):
             # get responses
             emp_res = requests.get('{}/users/{}'.format(API, id)).json()
-            emp_name = emp_res['name']
+            emp_username = emp_res['username']
             emp_todos = requests.get(
                 '{}/users/{}/todos'.format(API, id)).json()
             # completed_todos = requests.get(
@@ -32,7 +32,7 @@ def main():
                     fp.write(
                         '"{}", "{}", "{}". "{}"\n'.format(
                             id,
-                            emp_name,
+                            emp_username,
                             todo.get('completed'),
                             todo.get('title')
                         )
