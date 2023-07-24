@@ -30,10 +30,11 @@ def main():
             # write responses to csv
             with open('{}.json'.format(id), 'w') as jsonfile:
                 user_data = [{
-                    "task": "{}".format(todo.get('title')),
-                    "completed": "{}".format(todo.get('completed')),
-                    "username": "{}".format(emp_username)
+                    "task": todo.get('title'),
+                    "completed": bool(todo.get('completed')),
+                    "username": emp_username
                 } for todo in emp_todos]
+
                 user_json = {'{}'.format(id): user_data}
                 json.dump(user_json, jsonfile)
 
