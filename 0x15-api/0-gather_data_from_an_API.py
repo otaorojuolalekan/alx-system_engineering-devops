@@ -6,8 +6,8 @@ We are pulling and using APIs from
 "https://jsonplaceholder.typicode.com"
 """
 import re
-import sys
 import requests
+import sys
 
 # define the API url
 API = "https://jsonplaceholder.typicode.com"
