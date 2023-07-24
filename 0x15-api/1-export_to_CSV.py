@@ -30,7 +30,7 @@ def main():
             with open('{}.csv'.format(id), 'w') as fp:
                 for todo in emp_todos:
                     fp.write(
-                        '"{}", "{}", "{}". "{}"\n'.format(
+                        '"{}", "{}", "{}" "{}"\n'.format(
                             id,
                             emp_username,
                             todo.get('completed'),
