@@ -2,6 +2,7 @@
 """
 extending task 0 to export to csv
 """
+import json
 import re
 import requests
 import sys
@@ -27,14 +28,14 @@ def main():
             # no_completed = len(completed_todos)
 
             # write responses to csv
-            with open('{}.json'.format(id), 'w') as fp:
-                for todo in emp_todos:
-                    user_data = [{
-                        "task": '{}'.format(todo.get('title')),
-                        "completed": {}.format(todo.get('completed')),
-                        "username": {}.format(emp_username)
-                    }]
+            with open('{}.json'.format(id), 'w') as jsonfile:
+                user_data = [{
+                    "task": "{}".format(todo.get('title')),
+                    "completed": "{}".format(todo.get('completed')),
+                    "username": "{}".format(emp_username)
+                } for todo in emp_todos]
                 user_json = {'{}'.format(id): user_data}
+                json.dump(user_json, jsonfile)
 
 
 if __name__ == '__main__':
