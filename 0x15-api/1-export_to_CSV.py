@@ -25,7 +25,7 @@ def main():
             #     '{}/users/{}/todos?completed=true'.format(API, id)).json()
             # no_todos = len(emp_todos)
             # no_completed = len(completed_todos)
-            
+
             # write responses to csv
             with open('{}.csv'.format(id), 'w') as fp:
                 for todo in emp_todos:
@@ -36,7 +36,7 @@ def main():
                             todo.get('completed'),
                             todo.get('title')
                         )
-                )
+                    )
 
 
 if __name__ == '__main__':
