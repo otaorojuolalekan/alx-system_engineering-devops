@@ -1,3 +1,4 @@
+# fix nginx ulimit
 $ulimit = 4096
 file { '/etc/default/nginx':
   ensure  => present,
