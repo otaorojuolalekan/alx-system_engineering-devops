@@ -9,4 +9,3 @@ exec{'replace4':
   provider => shell,
   command  => 'sudo sed -i "s/holberton soft nofile 4/holberton soft nofile 40000/" /etc/security/limits.conf',
 }
-
