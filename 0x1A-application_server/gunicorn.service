@@ -1,16 +1,35 @@
-[Unit]
-Description=Gunicorn instance to serve Airbnb_clone_v4 content
-After=network.target                                               
-[Service]
-User=ubuntu
-Group=www-data
-WorkingDirectory=/home/ubuntu/AirBnB_clone_v4
-ExecStart=/home/ubuntu/.local/bin/gunicorn \
-    --workers 3 \
-    --bind 0.0.0.0:5003 \
-    --error-logfile /var/log/airbnb/airbnb-error.log \
-    --access-logfile /var/log/airbnb/airbnb-access.log \
-    web_dynamic.2-hbnb:app
+task 7
 
-[Install]
-WantedBy=multi-user.target
+Log in to web-01
+
+in the root directory of your server 
+
+vi 4-reload_gunicorn_no_downtime
+
+paste this 
+
+
+#!/usr/bin/env bash
+# Gracefully reloads Gunicorn.
+
+pgrep gunicorn | xargs | cut -d ' ' -f 1 | xargs kill -HUP
+
+
+
+make it executable
+
+
+then run it 
+
+./4-reload_gunicorn_no_downtime
+
+reboot your server 
+
+sudo reboot
+
+
+create this file in the 0x1A-application_server directory for github 4-reload_gunicorn_no_downtime
+
+make it executable 
+
+then push to your github
